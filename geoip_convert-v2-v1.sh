@@ -9,10 +9,23 @@
 # pygeoip == (0.3.2)
 
 # chmod +x geoip_convert-v2-v1.sh
-# ./geoip_convert-v2-v1.sh NAME
+# ./geoip_convert-v2-v1.sh LICENCE_KEY NAME
+
+# check if the script has been passed an argument, i.e. the mandatory licence key
+# then set the licence key as a variable
+# otherwise, explain the need for a licence key and exit
+if [ $1 ]; then
+	KEY="$1"
+else
+	echo "ERROR: No licence key provided"
+	echo "Usage: ./geoip_convert-v2-v1.sh LicenceKey [CustomName]"
+	echo "Access to the MaxMind GeoLite databases requires a (freely available) licence key, as of 2019-12-30"
+	echo "For more details, see: https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/"
+	exit 1
+fi
 
 # choose a name for the release
-NAME="$1"
+NAME="$2"
 
 AWK=`which gawk      2>>/dev/null` ; AWK="${AWK:-awk}"
 
@@ -54,7 +67,15 @@ mkdir $DATE_TODAY && cd $DATE_TODAY && (
         chmod +x mmdb-convert*.py csv2dat.py
 
         # download the geolite2 country database
-        curl -s http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz     > GeoLite2-Country.tar.gz 
+        curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$KEY&suffix=tar.gz" > GeoLite2-Country.tar.gz
+	# check the size of the downloaded file: if it's tiny then the download failed
+	# if failure then cat the file (it will state if the licence key was invalid)
+	if [ "$(stat -c %s GeoLite2-Country.tar.gz)" -lt 40 ]; then
+		echo "Download failed"
+		cat GeoLite2-Country.tar.gz
+		exit 1
+	fi
+
         # extract the decimal ip range with country code
         tar -xzf GeoLite2-Country.tar.gz && \
         $PYT ./mmdb-convert.py         GeoLite2-Country_*/GeoLite2-Country.mmdb
