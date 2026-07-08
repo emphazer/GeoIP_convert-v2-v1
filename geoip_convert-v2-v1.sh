@@ -67,7 +67,7 @@ mkdir $DATE_TODAY && cd $DATE_TODAY && (
         chmod +x mmdb-convert*.py csv2dat.py
 
         # download the geolite2 country database
-        curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$KEY&suffix=tar.gz" > GeoLite2-Country.tar.gz
+        curl -L -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=$KEY&suffix=tar.gz" > GeoLite2-Country.tar.gz
 	# check the size of the downloaded file: if it's tiny then the download failed
 	# if failure then cat the file (it will state if the licence key was invalid)
 	if [ "$(stat -c %s GeoLite2-Country.tar.gz)" -lt 40 ]; then
