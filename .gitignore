@@ -1,0 +1,38 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated databases, download archives, and reports
+*.mmdb
+*.dat
+*.tar.gz
+*.zip
+build.json
+/geoip
+/geoip_country
+/GeoIPC.csv
+/GeoIPC_country.csv
+/output/
+/tmp/
+/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
+.geoip-build-*/
+
+# Private configuration and logs
+.env
+.env.*
+*.key
+*.log
+
+# Local editor and operating-system files
+.DS_Store
+*.swp
+*~
+
+# Additional IPv6 outputs
+build_ipv6.json
+/geoip6
+/geoip6_country
+/GeoIPv6C.csv
+/GeoIPv6C_country.csv

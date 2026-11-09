@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add the standalone IPv6 Country converter alongside the IPv4 converter.
+- Include IPv6 tests and its validation report.
+- Document both converters, their output files, and reader requirements.
+- Ignore generated IPv4 and IPv6 outputs and local configuration.
+
 ## 1.0.2.1
 
 - Keep the date-based default build directory.
